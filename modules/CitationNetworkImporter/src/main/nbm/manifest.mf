@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module-Name: Citation Network Importer
+OpenIDE-Module-Short-Description: Import citation networks from OpenAlex directly into Gephi.
+OpenIDE-Module-Long-Description: Build a citation network in Gephi without an intermediate file. Search OpenAlex or start from a single work, follow citations for a chosen number of generations, and get a directed graph whose nodes carry the title, year, venue, citation count and open access status of each work. The source layer is pluggable, so further bibliographic sources can be added behind the same wizard.
+OpenIDE-Module-Display-Category: Import

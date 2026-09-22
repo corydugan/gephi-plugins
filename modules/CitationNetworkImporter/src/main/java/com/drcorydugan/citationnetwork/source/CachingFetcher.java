@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 import java.util.HexFormat;
 
 /**
@@ -21,6 +22,9 @@ import java.util.HexFormat;
  * <p>A citation walk revisits the same work many times, and a cached run can
  * be repeated with the network unplugged, which is what makes a reported graph
  * reproducible.</p>
+ *
+ * <p>The key is the uniform resource locator alone. Headers carry a key, which
+ * changes what a source allows rather than what it answers.</p>
  */
 public final class CachingFetcher implements HttpFetcher {
 
@@ -34,12 +38,12 @@ public final class CachingFetcher implements HttpFetcher {
     }
 
     @Override
-    public String get(String url) throws IOException {
+    public String get(String url, Map<String, String> headers) throws IOException {
         Path file = directory.resolve(key(url) + ".json");
         if (Files.isRegularFile(file)) {
             return Files.readString(file, StandardCharsets.UTF_8);
         }
-        String body = delegate.get(url);
+        String body = delegate.get(url, headers);
         Path temp = Files.createTempFile(directory, "partial", ".json");
         Files.writeString(temp, body, StandardCharsets.UTF_8);
         Files.move(temp, file, java.nio.file.StandardCopyOption.REPLACE_EXISTING);

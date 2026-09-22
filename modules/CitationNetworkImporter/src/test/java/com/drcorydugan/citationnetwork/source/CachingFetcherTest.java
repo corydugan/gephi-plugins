@@ -22,7 +22,7 @@ public class CachingFetcherTest {
     public void secondCallIsServedFromDiskAndNeverReachesTheDelegate() throws IOException {
         Path directory = Files.createTempDirectory("citation-network-cache");
         AtomicInteger calls = new AtomicInteger();
-        HttpFetcher delegate = url -> {
+        HttpFetcher delegate = (url, headers) -> {
             calls.incrementAndGet();
             return "{\"ok\":true}";
         };
@@ -40,7 +40,8 @@ public class CachingFetcherTest {
     @Test
     public void differentUniformResourceLocatorsGetDifferentEntries() throws IOException {
         Path directory = Files.createTempDirectory("citation-network-cache");
-        CachingFetcher fetcher = new CachingFetcher(url -> "{\"url\":\"" + url + "\"}", directory);
+        CachingFetcher fetcher = new CachingFetcher(
+                (url, headers) -> "{\"url\":\"" + url + "\"}", directory);
 
         fetcher.get("https://example.org/a");
         fetcher.get("https://example.org/b");

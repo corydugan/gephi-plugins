@@ -7,6 +7,7 @@
 package com.drcorydugan.citationnetwork.source;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Fetches the body of a uniform resource locator as text.
@@ -18,10 +19,18 @@ import java.io.IOException;
 public interface HttpFetcher {
 
     /**
-     * @param url an absolute uniform resource locator
+     * @param url     an absolute uniform resource locator
+     * @param headers request headers, which some sources use to carry a key
      * @return the response body as text
      * @throws IOException if the request fails after any retries the
      *                     implementation makes
      */
-    String get(String url) throws IOException;
+    String get(String url, Map<String, String> headers) throws IOException;
+
+    /**
+     * The same request with no headers of its own.
+     */
+    default String get(String url) throws IOException {
+        return get(url, Map.of());
+    }
 }

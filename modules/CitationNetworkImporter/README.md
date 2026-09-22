@@ -118,8 +118,23 @@ The withheld case is real rather than theoretical. Asking Semantic Scholar for t
 
 Crossref or PubMed can be added the same way, which is why the plugin is not named after any one database.
 
-## Licence
+## Licence and attribution
 
-MIT. See LICENSE.txt.
+The plugin is MIT. See LICENSE.txt.
 
-Data comes from OpenAlex, which is licensed under Creative Commons Zero (CC0). Please cite OpenAlex when you publish a graph built with this plugin.
+The data is not. Each source sets its own terms and they are not restated here, because they change:
+
+- OpenAlex publishes its licence and its citation guidance on its own help site. Cite OpenAlex when you publish a graph built from it.
+- The Semantic Scholar application programming interface is governed by a licence agreement from the Allen Institute for Artificial Intelligence, last updated 17 May 2023, at semanticscholar.org/product/api/license. Read it before redistributing anything pulled through it.
+
+## How each source takes a key, measured on 21 September 2026
+
+```
+OpenAlex            api_key as a query parameter. A wrong one answers 401
+                    with "Invalid or missing API key"
+Semantic Scholar    an x-api-key HEADER. As a query parameter it is ignored
+                    entirely, so the request silently runs anonymously, and a
+                    wrong key in the header answers 403
+```
+
+The second one matters: a key passed the wrong way looks like it worked.

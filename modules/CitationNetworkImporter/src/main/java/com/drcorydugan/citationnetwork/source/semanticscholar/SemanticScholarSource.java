@@ -17,9 +17,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * The Semantic Scholar implementation of {@link CitationSource}.
+ *
+ * <p>The key travels in an x-api-key header. As a query parameter it is
+ * ignored, so a user's key would silently do nothing.</p>
  *
  * <p>Paging is by offset rather than by cursor. A publisher can restrict a
  * paper's reference list, in which case the source answers with a null data
@@ -130,7 +134,7 @@ public final class SemanticScholarSource implements CitationSource {
 
     private String get(String url) throws SourceException {
         try {
-            return fetcher.get(apiKey == null ? url : url + "&x-api-key=" + encode(apiKey));
+            return fetcher.get(url, apiKey == null ? Map.of() : Map.of("x-api-key", apiKey));
         } catch (IOException e) {
             throw new SourceException("Semantic Scholar could not be reached: " + e.getMessage(), e);
         }

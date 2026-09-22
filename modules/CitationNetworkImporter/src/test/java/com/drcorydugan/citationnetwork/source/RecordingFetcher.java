@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -22,14 +23,16 @@ public final class RecordingFetcher implements HttpFetcher {
 
     private final Function<String, String> router;
     private final List<String> requested = new ArrayList<>();
+    private Map<String, String> lastHeaders = Map.of();
 
     public RecordingFetcher(Function<String, String> router) {
         this.router = router;
     }
 
     @Override
-    public String get(String url) throws IOException {
+    public String get(String url, Map<String, String> headers) throws IOException {
         requested.add(url);
+        this.lastHeaders = headers;
         String fixture = router.apply(url);
         if (fixture == null) {
             throw new IOException("no fixture is routed for " + url);
@@ -39,6 +42,10 @@ public final class RecordingFetcher implements HttpFetcher {
 
     public List<String> getRequested() {
         return requested;
+    }
+
+    public Map<String, String> getLastHeaders() {
+        return lastHeaders;
     }
 
     public static String read(String fixture) throws IOException {

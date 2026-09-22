@@ -21,8 +21,8 @@ import org.junit.Test;
  */
 public class SemanticScholarSourceTest {
 
-    private static SemanticScholarSource source(String referencesFixture) {
-        return new SemanticScholarSource(new RecordingFetcher(url -> {
+    private static RecordingFetcher fetcher(String referencesFixture) {
+        return new RecordingFetcher(url -> {
             if (url.contains("/citations")) {
                 return "s2_citations.json";
             }
@@ -33,7 +33,16 @@ public class SemanticScholarSourceTest {
                 return "s2_seed.json";
             }
             return null;
-        }), "https://api.semanticscholar.org/graph/v1", null);
+        });
+    }
+
+    private static SemanticScholarSource source(String referencesFixture) {
+        return source(fetcher(referencesFixture), null);
+    }
+
+    private static SemanticScholarSource source(RecordingFetcher fetcher, String apiKey) {
+        return new SemanticScholarSource(fetcher,
+                "https://api.semanticscholar.org/graph/v1", apiKey);
     }
 
     @Test
@@ -74,6 +83,26 @@ public class SemanticScholarSourceTest {
 
         assertTrue("the publisher withheld them, so nothing comes back", cited.isEmpty());
         assertTrue("and the source says that is why", source.getLastRequestWasElided());
+    }
+
+    @Test
+    public void aKeyTravelsInTheHeaderWhereTheSourceReadsIt() throws Exception {
+        RecordingFetcher fetcher = fetcher("s2_references_available.json");
+
+        source(fetcher, "a-key").fetchWork("10.1182/blood-2005-07-3046");
+
+        assertEquals("a-key", fetcher.getLastHeaders().get("x-api-key"));
+        assertTrue("and never as a query parameter, where it is ignored",
+                fetcher.getRequested().stream().noneMatch(url -> url.contains("x-api-key=")));
+    }
+
+    @Test
+    public void noKeyMeansNoHeader() throws Exception {
+        RecordingFetcher fetcher = fetcher("s2_references_available.json");
+
+        source(fetcher, null).fetchWork("10.1182/blood-2005-07-3046");
+
+        assertTrue(fetcher.getLastHeaders().isEmpty());
     }
 
     @Test

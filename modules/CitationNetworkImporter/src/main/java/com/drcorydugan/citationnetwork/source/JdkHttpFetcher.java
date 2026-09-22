@@ -12,6 +12,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,15 +49,18 @@ public final class JdkHttpFetcher implements HttpFetcher {
     }
 
     @Override
-    public String get(String url) throws IOException {
+    public String get(String url, Map<String, String> headers) throws IOException {
         IOException last = null;
         for (int attempt = 1; attempt <= maxAttempts; attempt++) {
-            HttpRequest request = HttpRequest.newBuilder(URI.create(url))
+            HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(url))
                     .header("User-Agent", userAgent)
                     .header("Accept", "application/json")
                     .timeout(Duration.ofSeconds(60))
-                    .GET()
-                    .build();
+                    .GET();
+            for (Map.Entry<String, String> header : headers.entrySet()) {
+                builder.header(header.getKey(), header.getValue());
+            }
+            HttpRequest request = builder.build();
             HttpResponse<String> response;
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());

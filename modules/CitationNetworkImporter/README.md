@@ -72,6 +72,12 @@ Three things measured against the live OpenAlex interface on 21 September 2026, 
 
 The importer honours both retry signals, the Retry-After header and the retryAfter field in the body, and it caches every response on disk for the session so a repeated walk does not refetch what it already has.
 
+## A graph you can open without building anything
+
+`demo/threshold-neighbourhood.gexf` is the result of the worked example above: the paper, ten works citing it, and the seventeen citations between all eleven. Open it in Gephi, or drag it into [gephi-lite](https://gephi.org/gephi-lite/) in a browser.
+
+It was generated from the two payloads recorded in `src/test/resources/fixtures`, through the same field mapping the plugin uses, and its node and edge counts match what the tests assert for that neighbourhood.
+
 ## Building it
 
 ```

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gexf xmlns="http://gexf.net/1.3" version="1.3">
+  <meta lastmodifieddate="2026-09-21">
+    <creator>Citation Network Importer for Gephi</creator>
+    <description>Beutler and Waalen on the lower limit of normal for blood haemoglobin, and ten works citing it. Built from payloads recorded from OpenAlex on 21 September 2026.</description>
+  </meta>
+  <graph defaultedgetype="directed" mode="static">
+    <attributes class="node">
+      <attribute id="0" title="doi" type="string"/>
+      <attribute id="1" title="year" type="integer"/>
+      <attribute id="2" title="venue" type="string"/>
+      <attribute id="3" title="cited_by_count" type="integer"/>
+      <attribute id="4" title="open_access" type="boolean"/>
+      <attribute id="5" title="retracted" type="boolean"/>
+      <attribute id="6" title="authors" type="string"/>
+      <attribute id="7" title="institutions" type="string"/>
+      <attribute id="8" title="concepts" type="string"/>
+      <attribute id="9" title="type" type="string"/>
+      <attribute id="10" title="source" type="string"/>
+      <attribute id="11" title="generation" type="integer"/>
+    </attributes>
+    <nodes>
+      <node id="W2072443528" label="The definition of anemia: what is the lower limit of normal of the blood hemoglobin concentration?">
+        <attvalues>
+          <attvalue for="0" value="10.1182/blood-2005-07-3046"/>
+          <attvalue for="1" value="2005"/>
+          <attvalue for="2" value="Blood"/>
+          <attvalue for="3" value="978"/>
+          <attvalue for="4" value="true"/>
+          <attvalue for="5" value="false"/>
+          <attvalue for="6" value="Ernest Beutler; Jill Waalen"/>
+          <attvalue for="7" value=""/>
+          <attvalue for="8" value=""/>
+          <attvalue for="9" value="article"/>
+          <attvalue for="10" value="openalex"/>
+          <attvalue for="11" value="0"/>
+        </attvalues>
+      </node>
+      <node id="W2035675177" label="A systematic analysis of global anemia burden from 1990 to 2010">
+        <attvalues>
+          <attvalue for="0" value="10.1182/blood-2013-06-508325"/>
+          <attvalue for="1" value="2013"/>
+          <attvalue for="2" value="Blood"/>
+          <attvalue for="3" value="2116"/>
+          <attvalue for="4" value="true"/>
+          <attvalue for="5" value="false"/>
+          <attvalue for="6" value="Nicholas J Kassebaum; Rashmi Jasrasaria; Mohsen Naghavi; Sarah K. Wulf; Nicole E. Johns; Rafael Lozano; Mathilda Regan; D. J. Weatherall; David Chou; Thomas P. Eisele; Seth Flaxman; Rachel L. Pullan; Simon Brooker; Christopher J L Murray"/>
+          <attvalue for="7" value=""/>
+          <attvalue for="8" value=""/>
+          <attvalue for="9" value="article"/>
+          <attvalue for="10" value="openalex"/>
+          <attvalue for="11" value="1"/>
+        </attvalues>
+      </node>
+      <node id="W2167575052" label="Global epidemiology of haemoglobin disorders and derived service indicators">
+        <attvalues>
+          <attvalue for="0" value="10.2471/blt.06.036673"/>
+          <attvalue for="1" value="2008"/>
+          <attvalue for="2" value="Bulletin of the World Health Organization"/>
+          <attvalue for="3" value="1932"/>
+          <attvalue for="4" value="true"/>
+          <attvalue for="5" value="false"/>
+          <attvalue for="6" value="Bernadette Modell"/>
+          <attvalue for="7" value=""/>
+          <attvalue for="8" value=""/>
+          <attvalue for="9" value="article"/>
+          <attvalue for="10" value="openalex"/>
+          <attvalue for="11" value="1"/>
+        </attvalues>
+      </node>
+      <node id="W1576551594" label="Iron-Deficiency Anemia">
+        <attvalues>
+          <attvalue for="0" value="10.1056/nejmra1401038"/>
+          <attvalue for="1" value="2015"/>
+          <attvalue for="2" value="New England Journal of Medicine"/>
+          <attvalue for="3" value="1657"/>
+          <attvalue for="4" value="false"/>
+          <attvalue for="5" value="false"/>
+          <attvalue for="6" value="Clara Camaschella"/>
+          <attvalue for="7" value=""/>
+          <attvalue for="8" value=""/>
+          <attvalue for="9" value="article"/>
+          <attvalue for="10" value="openalex"/>
+          <attvalue for="11" value="1"/>
+        </attvalues>
+      </node>
+      <node id="W2125661115" label="Anaemia in low-income and middle-income countries">
+        <attvalues>
+          <attvalue for="0" value="10.1016/s0140-6736(10)62304-5"/>
+          <attvalue for="1" value="2011"/>
+          <attvalue for="2" value="The Lancet"/>
+          <attvalue for="3" value="1333"/>
+          <attvalue for="4" value="false"/>
+          <attvalue for="5" value="false"/>
+          <attvalue for="6" value="Yarlini Balarajan; Usha Ramakrishnan; Emre Özaltin; Anuraj H. Shankar; S. V. Subramanian"/>
+          <attvalue for="7" value=""/>
+          <attvalue for="8" value=""/>
+          <attvalue for="9" value="article"/>
+          <attvalue for="10" value="openalex"/>
+          <attvalue for="11" value="1"/>
+        </attvalues>
+      </node>
+      <node id="W2941747284" label="Anemia epidemiology, pathophysiology, and etiology in low‐ and middle‐income countries">
+        <attvalues>
+          <attvalue for="0" value="10.1111/nyas.14092"/>
+          <attvalue for="1" value="2019"/>
+          <attvalue for="2" value="Annals of the New York Academy of Sciences"/>
+          <attvalue for="3" value="1162"/>
+          <attvalue for="4" value="true"/>
+          <attvalue for="5" value="false"/>
+          <attvalue for="6" value="Camila M. Chaparro; Parminder S. Suchdev"/>
+          <attvalue for="7" value=""/>
+          <attvalue for="8" value=""/>
+          <attvalue for="9" value="article"/>
+          <attvalue for="10" value="openalex"/>
+          <attvalue for="11" value="1"/>
+        </attvalues>
+      </node>
+      <node id="W4229497868" label="Relation Between Red Blood Cell Distribution Width and Inflammatory Biomarkers in a Large Cohort of Unselected Outpatients">
+        <attvalues>
+          <attvalue for="0" value="10.5858/133.4.628"/>
+          <attvalue for="1" value="2009"/>
+          <attvalue for="2" value="Archives of Pathology &amp; Laboratory Medicine"/>
+          <attvalue for="3" value="997"/>
+          <attvalue for="4" value="false"/>
+          <attvalue for="5" value="false"/>
+          <attvalue for="6" value="Giuseppe Lippi; Giovanni Targher; Martina Montagnana; Gian Luca Salvagno; Giacomo Zoppini; Gian Cesare Guidi"/>
+          <attvalue for="7" value=""/>
+          <attvalue for="8" value=""/>
+          <attvalue for="9" value="article"/>
+          <attvalue for="10" value="openalex"/>
+          <attvalue for="11" value="1"/>
+        </attvalues>
+      </node>
+      <node id="W2116148243" label="Relation between red blood cell distribution width and inflammatory biomarkers in a large cohort of unselected outpatients.">
+        <attvalues>
+          <attvalue for="0" value="10.5858/133.4.628"/>
+          <attvalue for="1" value="2009"/>
+          <attvalue for="2" value="PubMed"/>
+          <attvalue for="3" value="800"/>
+          <attvalue for="4" value="false"/>
+          <attvalue for="5" value="false"/>
+          <attvalue for="6" value="Giuseppe Lippi; Giovanni Targher; Martina Montagnana; Gian Luca Salvagno; Giacomo Zoppini; Gian Cesare Guidi"/>
+          <attvalue for="7" value=""/>
+          <attvalue for="8" value=""/>
+          <attvalue for="9" value="article"/>
+          <attvalue for="10" value="openalex"/>
+          <attvalue for="11" value="1"/>
+        </attvalues>
+      </node>
+      <node id="W2330912863" label="The Global Burden of Anemia">
+        <attvalues>
+          <attvalue for="0" value="10.1016/j.hoc.2015.11.002"/>
+          <attvalue for="1" value="2016"/>
+          <attvalue for="2" value="Hematology/Oncology Clinics of North America"/>
+          <attvalue for="3" value="783"/>
+          <attvalue for="4" value="true"/>
+          <attvalue for="5" value="false"/>
+          <attvalue for="6" value="Nicholas J Kassebaum"/>
+          <attvalue for="7" value=""/>
+          <attvalue for="8" value=""/>
+          <attvalue for="9" value="article"/>
+          <attvalue for="10" value="openalex"/>
+          <attvalue for="11" value="1"/>
+        </attvalues>
+      </node>
+      <node id="W2755145368" label="Official ERS technical standards: Global Lung Function Initiative reference values for the carbon monoxide transfer factor for Caucasians">
+        <attvalues>
+          <attvalue for="0" value="10.1183/13993003.00010-2017"/>
+          <attvalue for="1" value="2017"/>
+          <attvalue for="2" value="European Respiratory Journal"/>
+          <attvalue for="3" value="694"/>
+          <attvalue for="4" value="true"/>
+          <attvalue for="5" value="false"/>
+          <attvalue for="6" value="Sanja Stanojevic; Brian L. Graham; Brendan Cooper; Bruce Thompson; Kim W. Carter; Richard W. Francis; Graham L. Hall"/>
+          <attvalue for="7" value=""/>
+          <attvalue for="8" value=""/>
+          <attvalue for="9" value="article"/>
+          <attvalue for="10" value="openalex"/>
+          <attvalue for="11" value="1"/>
+        </attvalues>
+      </node>
+      <node id="W2000827946" label="Anemia and Patient Blood Management in Hip and Knee Surgery">
+        <attvalues>
+          <attvalue for="0" value="10.1097/aln.0b013e3181e08e97"/>
+          <attvalue for="1" value="2010"/>
+          <attvalue for="2" value="Anesthesiology"/>
+          <attvalue for="3" value="659"/>
+          <attvalue for="4" value="false"/>
+          <attvalue for="5" value="false"/>
+          <attvalue for="6" value="Donat R. Spahn"/>
+          <attvalue for="7" value=""/>
+          <attvalue for="8" value=""/>
+          <attvalue for="9" value="article"/>
+          <attvalue for="10" value="openalex"/>
+          <attvalue for="11" value="1"/>
+        </attvalues>
+      </node>
+    </nodes>
+    <edges>
+      <edge id="0" source="W2072443528" target="W2035675177"/>
+      <edge id="1" source="W2072443528" target="W2167575052"/>
+      <edge id="2" source="W2035675177" target="W1576551594"/>
+      <edge id="3" source="W2072443528" target="W1576551594"/>
+      <edge id="4" source="W2072443528" target="W2125661115"/>
+      <edge id="5" source="W2167575052" target="W2125661115"/>
+      <edge id="6" source="W2035675177" target="W2941747284"/>
+      <edge id="7" source="W2072443528" target="W2941747284"/>
+      <edge id="8" source="W2125661115" target="W2941747284"/>
+      <edge id="9" source="W2167575052" target="W2941747284"/>
+      <edge id="10" source="W2330912863" target="W2941747284"/>
+      <edge id="11" source="W2072443528" target="W4229497868"/>
+      <edge id="12" source="W2072443528" target="W2116148243"/>
+      <edge id="13" source="W2035675177" target="W2330912863"/>
+      <edge id="14" source="W2072443528" target="W2330912863"/>
+      <edge id="15" source="W2072443528" target="W2755145368"/>
+      <edge id="16" source="W2072443528" target="W2000827946"/>
+    </edges>
+  </graph>
+</gexf>

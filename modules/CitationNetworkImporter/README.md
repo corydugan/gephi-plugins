@@ -70,7 +70,18 @@ Three things measured against the live OpenAlex interface on 21 September 2026, 
 2. A free key removes that limit, which is why the wizard offers one.
 3. Identifiers resolve in batches rather than one request per work, so a walk over fifty references is two requests instead of fifty.
 
-The importer honours both retry signals, the Retry-After header and the retryAfter field in the body, and it caches every response on disk for the session so a repeated walk does not refetch what it already has.
+The importer honours both retry signals, the Retry-After header and the retryAfter field in the body.
+
+Two things it does on its own behalf:
+
+```
+cache       every response is written under Gephi's own cache directory, in
+            citation-network-importer, so a repeated or resumed walk does not
+            refetch what it already holds. Deleting that folder costs nothing
+throttle    with no key set, requests that actually leave the machine are kept
+            about a second apart, because an unauthenticated caller shares a
+            pool with everybody else. A cached response is never delayed
+```
 
 ## The question this was built for
 

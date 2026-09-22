@@ -13,12 +13,14 @@ import com.drcorydugan.citationnetwork.source.CitationSource;
 import com.drcorydugan.citationnetwork.source.HttpFetcher;
 import com.drcorydugan.citationnetwork.source.JdkHttpFetcher;
 import com.drcorydugan.citationnetwork.source.SourceException;
+import com.drcorydugan.citationnetwork.source.ThrottlingFetcher;
 import com.drcorydugan.citationnetwork.source.Work;
 import com.drcorydugan.citationnetwork.source.openalex.OpenAlexSource;
 import com.drcorydugan.citationnetwork.source.semanticscholar.SemanticScholarSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.gephi.io.importer.api.ContainerLoader;
@@ -30,6 +32,7 @@ import org.gephi.io.importer.spi.WizardImporter;
 import org.gephi.utils.longtask.spi.LongTask;
 import org.gephi.utils.progress.Progress;
 import org.gephi.utils.progress.ProgressTicket;
+import org.openide.modules.Places;
 import org.openide.util.NbBundle;
 
 /**
@@ -122,16 +125,28 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
         return NbBundle.getMessage(CitationNetworkImporter.class, key, arguments);
     }
 
+    /** Spacing between requests when no key is set, so a shared pool is not flooded. */
+    static final Duration UNAUTHENTICATED_INTERVAL = Duration.ofMillis(1100);
+
     private CitationSource buildSource() throws IOException {
         HttpFetcher fetcher = new JdkHttpFetcher(userAgent());
-        Path cache = Path.of(System.getProperty("java.io.tmpdir"),
-                "citation-network-importer-cache");
-        Files.createDirectories(cache);
-        fetcher = new CachingFetcher(fetcher, cache);
+        if (settings.getApiKey().isEmpty()) {
+            fetcher = new ThrottlingFetcher(fetcher, UNAUTHENTICATED_INTERVAL);
+        }
+        Files.createDirectories(cacheDirectory());
+        fetcher = new CachingFetcher(fetcher, cacheDirectory());
         if (ImportSettings.SOURCE_SEMANTIC_SCHOLAR.equals(settings.getSourceId())) {
             return new SemanticScholarSource(fetcher, settings.getApiKey());
         }
         return new OpenAlexSource(fetcher, settings.getMailto(), settings.getApiKey());
+    }
+
+    /**
+     * The platform's own cache directory, so responses land where Gephi keeps
+     * everything else it can afford to lose.
+     */
+    static Path cacheDirectory() {
+        return Places.getCacheSubdirectory("citation-network-importer").toPath();
     }
 
     private String userAgent() {

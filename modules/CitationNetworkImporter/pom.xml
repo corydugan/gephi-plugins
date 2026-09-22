@@ -44,6 +44,10 @@
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util-ui</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-modules</artifactId>
+        </dependency>
 
         <!-- Gson comes from Gephi's own wrapper, which publishes com.google.gson,
              rather than being bundled a second time by this plugin. -->

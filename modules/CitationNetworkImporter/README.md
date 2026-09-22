@@ -2,7 +2,7 @@
 
 Build a citation network in Gephi without an intermediate file. Search OpenAlex or start from one work, follow citations for as many generations as you ask for, and get a directed graph you can lay out and filter straight away.
 
-An edge runs from the CITED work to the CITING work, which is the direction a claim travels through a literature.
+An edge runs from the CITED work to the CITING work, which is the direction a claim travels through a literature. Note what that means for Gephi's degree statistics: **out-degree is how often a work was cited** and in-degree is how many of its own references are in the graph. That is the opposite of the convention most bibliometric tools use, and it is deliberate.
 
 ## What it adds to Gephi
 
@@ -89,7 +89,7 @@ throttle    with no key set, requests that actually leave the machine are kept
 
 A definition can be a hub. The 1968 World Health Organization scientific group report on nutritional anaemias set the haemoglobin cutoffs that a whole field still classifies patients by. In OpenAlex it is work W4300771061, cited by hundreds of works, carrying no digital object identifier, no authorships and no references of its own.
 
-Import it and the shape is plain: every edge points in, and nothing points out. That is what a definitional source looks like from inside the literature that inherited it, and it is the reason this plugin exists rather than a general purpose network importer.
+Import it and the shape is plain: every edge LEAVES it and none arrives, because an edge here runs from the cited work to the citing one. In Gephi's own statistics that reads as out-degree equal to everything you pulled and in-degree zero. That is what a definitional source looks like from inside the literature that inherited it, and it is the reason this plugin exists rather than a general purpose network importer.
 
 The worked example above starts one step along that same chain, at Beutler and Waalen's paper asking what the lower limit of normal actually is. That paper is itself one of the works citing the 1968 report.
 

@@ -23,10 +23,10 @@ import org.junit.Test;
  *
  * <p>The 1968 World Health Organization scientific group report on nutritional
  * anaemias is cited by hundreds of works and carries no digital object
- * identifier, no authorships and no references in the source. A citation graph
- * shows it as a node with high in degree and no out degree, which is what a
- * definitional source looks like from inside the literature that inherited
- * it.</p>
+ * identifier, no authorships and no references in the source. Since an edge
+ * runs from the cited work to the citing one, it appears as a node with high
+ * OUT degree and no in degree, which is what a definitional source looks like
+ * from inside the literature that inherited it.</p>
  */
 public class FoundingDocumentTest {
 
@@ -58,7 +58,7 @@ public class FoundingDocumentTest {
     }
 
     @Test
-    public void theWalkShowsAPureSinkWithEveryEdgePointingIn() throws Exception {
+    public void theWalkShowsAPureSourceWithEveryEdgeLeavingIt() throws Exception {
         WalkSettings settings = new WalkSettings();
         settings.setSeedIdentifier(SEED);
         settings.setDepth(1);
@@ -69,10 +69,11 @@ public class FoundingDocumentTest {
         CitationGraph graph = new CitationWalker(source(), settings, null).walk();
 
         assertEquals("the report and the ten recorded citers", 11, graph.nodeCount());
-        assertTrue("nothing in the graph is cited BY the report",
+        assertTrue("no edge ARRIVES at the report, because it cites nothing in the graph",
                 graph.getCitations().stream().noneMatch(c -> c.getCitingId().equals(SEED)));
-        long intoTheSeed = graph.getCitations().stream()
+        long leavingTheSeed = graph.getCitations().stream()
                 .filter(c -> c.getCitedId().equals(SEED)).count();
-        assertEquals("every recorded citer points at it", 10, intoTheSeed);
+        assertEquals("one edge LEAVES it towards each work that cites it",
+                10, leavingTheSeed);
     }
 }

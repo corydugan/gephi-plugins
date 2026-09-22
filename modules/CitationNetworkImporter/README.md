@@ -72,6 +72,20 @@ Three things measured against the live OpenAlex interface on 21 September 2026, 
 
 The importer honours both retry signals, the Retry-After header and the retryAfter field in the body, and it caches every response on disk for the session so a repeated walk does not refetch what it already has.
 
+## The question this was built for
+
+A definition can be a hub. The 1968 World Health Organization scientific group report on nutritional anaemias set the haemoglobin cutoffs that a whole field still classifies patients by. In OpenAlex it is work W4300771061, cited by hundreds of works, carrying no digital object identifier, no authorships and no references of its own.
+
+Import it and the shape is plain: every edge points in, and nothing points out. That is what a definitional source looks like from inside the literature that inherited it, and it is the reason this plugin exists rather than a general purpose network importer.
+
+The worked example above starts one step along that same chain, at Beutler and Waalen's paper asking what the lower limit of normal actually is. That paper is itself one of the works citing the 1968 report.
+
+```
+Or one work                 W4300771061
+Follow                      Works citing these
+Generations                 1
+```
+
 ## A graph you can open without building anything
 
 `demo/threshold-neighbourhood.gexf` is the result of the worked example above: the paper, ten works citing it, and the seventeen citations between all eleven. Open it in Gephi, or drag it into [gephi-lite](https://gephi.org/gephi-lite/) in a browser.

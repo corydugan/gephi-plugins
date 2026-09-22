@@ -40,7 +40,7 @@ public final class SemanticScholarSource implements CitationSource {
     private final HttpFetcher fetcher;
     private final String baseUrl;
     private final String apiKey;
-    private boolean lastRequestWasElided;
+    private int elidedCount;
 
     public SemanticScholarSource(HttpFetcher fetcher, String apiKey) {
         this(fetcher, "https://api.semanticscholar.org/graph/v1", apiKey);
@@ -63,11 +63,11 @@ public final class SemanticScholarSource implements CitationSource {
     }
 
     /**
-     * Whether the last neighbourhood request came back with its field removed
-     * by the publisher rather than empty.
+     * How many neighbourhood requests came back with the field removed by a
+     * publisher rather than empty, counted over the life of this source.
      */
-    public boolean getLastRequestWasElided() {
-        return lastRequestWasElided;
+    public int getElidedCount() {
+        return elidedCount;
     }
 
     @Override
@@ -109,7 +109,6 @@ public final class SemanticScholarSource implements CitationSource {
 
     private List<Work> neighbours(String workId, String path, String key, int limit)
             throws SourceException {
-        lastRequestWasElided = false;
         List<Work> collected = new ArrayList<>();
         Integer offset = 0;
         while (collected.size() < limit && offset != null) {
@@ -119,7 +118,7 @@ public final class SemanticScholarSource implements CitationSource {
                     + "&offset=" + offset;
             JsonObject page = SemanticScholarMapper.parse(get(url));
             if (SemanticScholarMapper.isElided(page)) {
-                lastRequestWasElided = true;
+                elidedCount++;
                 break;
             }
             List<Work> works = SemanticScholarMapper.toWorks(page, key);

@@ -124,6 +124,7 @@ The walk talks to a `CitationSource`, and there are two implementations of it. T
 | Paging | cursor | offset |
 | Key | optional, and removes the search rate limit | optional |
 | Extra node columns | institutions, concepts | none of those |
+| Citations closed inside the neighbourhood | yes, from the reference lists already returned | no, the payload carries no reference identifiers |
 
 The withheld case is real rather than theoretical. Asking Semantic Scholar for the references of the paper in the worked example returns a null list with a note saying the publisher elided the field. The plugin reports that in the import report, so a missing reference list does not read as a paper that cites nothing.
 

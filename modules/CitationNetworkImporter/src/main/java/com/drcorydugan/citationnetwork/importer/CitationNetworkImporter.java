@@ -106,9 +106,11 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
                                 : "CitationNetworkImporter.report.referencesFailed",
                         problem.getWorkId(), problem.getDetail()));
             }
-            if (source instanceof SemanticScholarSource
-                    && ((SemanticScholarSource) source).getLastRequestWasElided()) {
-                report.log(message("CitationNetworkImporter.report.elided"));
+            if (source instanceof SemanticScholarSource) {
+                int elided = ((SemanticScholarSource) source).getElidedCount();
+                if (elided > 0) {
+                    report.log(message("CitationNetworkImporter.report.elided", elided));
+                }
             }
             report.log(message("CitationNetworkImporter.report.imported",
                     graph.nodeCount(), graph.edgeCount(), source.getDisplayName()));

@@ -44,7 +44,8 @@ public final class CachingFetcher implements HttpFetcher {
             return Files.readString(file, StandardCharsets.UTF_8);
         }
         String body = delegate.get(url, headers);
-        Path temp = Files.createTempFile(directory, "partial", ".json");
+        // One partial file per key, so a crash leaves at most what is in flight.
+        Path temp = directory.resolve(key(url) + ".partial");
         Files.writeString(temp, body, StandardCharsets.UTF_8);
         Files.move(temp, file, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         return body;

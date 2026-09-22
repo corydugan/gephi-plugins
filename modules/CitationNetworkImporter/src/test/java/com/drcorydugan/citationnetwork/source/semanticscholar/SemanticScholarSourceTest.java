@@ -72,7 +72,7 @@ public class SemanticScholarSourceTest {
         List<Work> cited = source.fetchReferences("eb55a813d810bb2d4a34d37a4dcd9e293f769f81", 5);
 
         assertEquals(5, cited.size());
-        assertFalse("this paper's references are not withheld", source.getLastRequestWasElided());
+        assertEquals("this paper's references are not withheld", 0, source.getElidedCount());
     }
 
     @Test
@@ -82,7 +82,11 @@ public class SemanticScholarSourceTest {
         List<Work> cited = source.fetchReferences("306d216d64e132b27439e225505ff2dc17644723", 5);
 
         assertTrue("the publisher withheld them, so nothing comes back", cited.isEmpty());
-        assertTrue("and the source says that is why", source.getLastRequestWasElided());
+        assertEquals("and the source counts it, so a later request cannot hide it",
+                1, source.getElidedCount());
+
+        source.fetchReferences("306d216d64e132b27439e225505ff2dc17644723", 5);
+        assertEquals("the count carries rather than resetting", 2, source.getElidedCount());
     }
 
     @Test

@@ -155,7 +155,7 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
                 + (contact.isEmpty() ? "" : "; mailto:" + contact) + ")";
     }
 
-    private static void addColumns(ContainerLoader loader) {
+    static void addColumns(ContainerLoader loader) {
         loader.addNodeColumn(COLUMN_DOI, String.class);
         loader.addNodeColumn(COLUMN_YEAR, Integer.class);
         loader.addNodeColumn(COLUMN_VENUE, String.class);
@@ -170,22 +170,27 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
         loader.addNodeColumn(COLUMN_GENERATION, Integer.class);
     }
 
-    private void write(CitationGraph graph, ContainerLoader loader, String sourceId) {
+    /**
+     * Translate the graph into the container. A value the source did not hold
+     * is left unset rather than written as null, so the column stays empty for
+     * that node instead of carrying an absence.
+     */
+    void write(CitationGraph graph, ContainerLoader loader, String sourceId) {
         for (Work work : graph.getWorks()) {
             NodeDraft node = loader.factory().newNodeDraft(work.getId());
             node.setLabel(work.getTitle() == null ? work.getId() : work.getTitle());
-            node.setValue(COLUMN_DOI, work.getDoi());
-            node.setValue(COLUMN_YEAR, work.getYear());
-            node.setValue(COLUMN_VENUE, work.getVenue());
-            node.setValue(COLUMN_CITED_BY, work.getCitedByCount());
-            node.setValue(COLUMN_OPEN_ACCESS, work.isOpenAccess());
-            node.setValue(COLUMN_RETRACTED, work.isRetracted());
-            node.setValue(COLUMN_AUTHORS, String.join("; ", work.getAuthors()));
-            node.setValue(COLUMN_INSTITUTIONS, String.join("; ", work.getInstitutions()));
-            node.setValue(COLUMN_CONCEPTS, String.join("; ", work.getConcepts()));
-            node.setValue(COLUMN_TYPE, work.getType());
-            node.setValue(COLUMN_SOURCE, sourceId);
-            node.setValue(COLUMN_GENERATION, graph.getGeneration(work.getId()));
+            set(node, COLUMN_DOI, work.getDoi());
+            set(node, COLUMN_YEAR, work.getYear());
+            set(node, COLUMN_VENUE, work.getVenue());
+            set(node, COLUMN_CITED_BY, work.getCitedByCount());
+            set(node, COLUMN_OPEN_ACCESS, work.isOpenAccess());
+            set(node, COLUMN_RETRACTED, work.isRetracted());
+            set(node, COLUMN_AUTHORS, joinOrNull(work.getAuthors()));
+            set(node, COLUMN_INSTITUTIONS, joinOrNull(work.getInstitutions()));
+            set(node, COLUMN_CONCEPTS, joinOrNull(work.getConcepts()));
+            set(node, COLUMN_TYPE, work.getType());
+            set(node, COLUMN_SOURCE, sourceId);
+            set(node, COLUMN_GENERATION, graph.getGeneration(work.getId()));
             loader.addNode(node);
         }
         for (CitationGraph.Citation citation : graph.getCitations()) {
@@ -195,6 +200,17 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
             edge.setTarget(loader.getNode(citation.getCitingId()));
             loader.addEdge(edge);
         }
+    }
+
+    private static void set(NodeDraft node, String column, Object value) {
+        if (value != null) {
+            node.setValue(column, value);
+        }
+    }
+
+    /** Null for an empty list, so an empty column is not written as a blank. */
+    private static String joinOrNull(java.util.List<String> values) {
+        return values.isEmpty() ? null : String.join("; ", values);
     }
 
     @Override

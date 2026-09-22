@@ -7,8 +7,10 @@ An edge runs from the CITED work to the CITING work, which is the direction a cl
 ## What it adds to Gephi
 
 ```
-File > Import > Citation network
+File > Import Database > Citation network
 ```
+
+Gephi calls that menu item Import Database and it opens the Import Wizard, whose first step asks for a Category. This plugin registers under Bibliographic sources.
 
 One wizard screen collects everything:
 

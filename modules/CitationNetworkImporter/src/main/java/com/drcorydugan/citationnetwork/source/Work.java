@@ -28,7 +28,9 @@ public final class Work {
     private final boolean openAccess;
     private final boolean retracted;
     private final List<String> authors;
+    private final List<String> institutions;
     private final List<String> concepts;
+    private final String type;
     private final List<String> referencedWorks;
 
     public Work(String id,
@@ -40,7 +42,9 @@ public final class Work {
                 boolean openAccess,
                 boolean retracted,
                 List<String> authors,
+                List<String> institutions,
                 List<String> concepts,
+                String type,
                 List<String> referencedWorks) {
         this.id = Objects.requireNonNull(id, "a work needs an identifier");
         this.doi = doi;
@@ -51,7 +55,9 @@ public final class Work {
         this.openAccess = openAccess;
         this.retracted = retracted;
         this.authors = copy(authors);
+        this.institutions = copy(institutions);
         this.concepts = copy(concepts);
+        this.type = type;
         this.referencedWorks = copy(referencedWorks);
     }
 
@@ -99,8 +105,23 @@ public final class Work {
         return authors;
     }
 
+    /**
+     * Distinct institution names across the authorships, in the order the
+     * source lists them.
+     */
+    public List<String> getInstitutions() {
+        return institutions;
+    }
+
     public List<String> getConcepts() {
         return concepts;
+    }
+
+    /**
+     * The source's own work type, for example article or review.
+     */
+    public String getType() {
+        return type;
     }
 
     /**

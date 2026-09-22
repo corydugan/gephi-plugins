@@ -48,7 +48,9 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
     static final String COLUMN_OPEN_ACCESS = "open_access";
     static final String COLUMN_RETRACTED = "retracted";
     static final String COLUMN_AUTHORS = "authors";
+    static final String COLUMN_INSTITUTIONS = "institutions";
     static final String COLUMN_CONCEPTS = "concepts";
+    static final String COLUMN_TYPE = "type";
     static final String COLUMN_SOURCE = "source";
     static final String COLUMN_GENERATION = "generation";
 
@@ -138,7 +140,9 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
         loader.addNodeColumn(COLUMN_OPEN_ACCESS, Boolean.class);
         loader.addNodeColumn(COLUMN_RETRACTED, Boolean.class);
         loader.addNodeColumn(COLUMN_AUTHORS, String.class);
+        loader.addNodeColumn(COLUMN_INSTITUTIONS, String.class);
         loader.addNodeColumn(COLUMN_CONCEPTS, String.class);
+        loader.addNodeColumn(COLUMN_TYPE, String.class);
         loader.addNodeColumn(COLUMN_SOURCE, String.class);
         loader.addNodeColumn(COLUMN_GENERATION, Integer.class);
     }
@@ -154,7 +158,9 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
             node.setValue(COLUMN_OPEN_ACCESS, work.isOpenAccess());
             node.setValue(COLUMN_RETRACTED, work.isRetracted());
             node.setValue(COLUMN_AUTHORS, String.join("; ", work.getAuthors()));
+            node.setValue(COLUMN_INSTITUTIONS, String.join("; ", work.getInstitutions()));
             node.setValue(COLUMN_CONCEPTS, String.join("; ", work.getConcepts()));
+            node.setValue(COLUMN_TYPE, work.getType());
             node.setValue(COLUMN_SOURCE, sourceId);
             node.setValue(COLUMN_GENERATION, graph.getGeneration(work.getId()));
             loader.addNode(node);

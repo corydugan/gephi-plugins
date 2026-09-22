@@ -39,7 +39,9 @@ cited_by_count     citations the source counts, at the time of import
 open_access        whether the source records an open access copy
 retracted          whether the source records a retraction
 authors            author names, separated by semicolons
+institutions       distinct institution names across the authorships
 concepts           the source's own subject concepts
+type               the source's own work type, for example article or review
 source             which bibliographic source the work came from
 generation         0 for a seed, then 1, 2 and so on outwards
 ```

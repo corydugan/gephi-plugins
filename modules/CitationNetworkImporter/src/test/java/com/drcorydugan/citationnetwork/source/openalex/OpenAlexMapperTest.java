@@ -41,6 +41,11 @@ public class OpenAlexMapperTest {
         assertEquals(4, work.getAuthors().size());
         assertEquals(84, work.getReferencedWorks().size());
         assertFalse("this work is not retracted in the recorded payload", work.isRetracted());
+        assertEquals("article", work.getType());
+        assertTrue("the recorded authorships carry institutions",
+                work.getInstitutions().contains("University of Malawi"));
+        assertEquals("institutions are distinct", work.getInstitutions().size(),
+                work.getInstitutions().stream().distinct().count());
         assertNotNull(work.getTitle());
         assertTrue("every reference is a short identifier",
                 work.getReferencedWorks().stream().allMatch(id -> id.startsWith("W")));

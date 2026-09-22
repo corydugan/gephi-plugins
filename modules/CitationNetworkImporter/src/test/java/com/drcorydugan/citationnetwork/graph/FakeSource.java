@@ -29,7 +29,8 @@ final class FakeSource implements CitationSource {
 
     void addWork(String id, List<String> references) {
         works.put(id, new Work(id, null, "Title of " + id, 2020, "A journal", 0,
-                false, false, List.of("An author"), List.of(), references));
+                false, false, List.of("An author"), List.of("An institution"),
+                List.of(), "article", references));
         for (String reference : references) {
             citedBy.computeIfAbsent(reference, key -> new ArrayList<>()).add(id);
         }

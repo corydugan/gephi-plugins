@@ -50,6 +50,7 @@ public final class OpenAlexMapper {
                 && json.get("is_retracted").getAsBoolean();
 
         List<String> authors = new ArrayList<>();
+        List<String> institutions = new ArrayList<>();
         if (json.has("authorships") && json.get("authorships").isJsonArray()) {
             for (JsonElement element : json.getAsJsonArray("authorships")) {
                 JsonObject authorship = element.getAsJsonObject();
@@ -57,6 +58,14 @@ public final class OpenAlexMapper {
                     String name = text(authorship.getAsJsonObject("author"), "display_name");
                     if (name != null) {
                         authors.add(name);
+                    }
+                }
+                if (authorship.has("institutions") && authorship.get("institutions").isJsonArray()) {
+                    for (JsonElement each : authorship.getAsJsonArray("institutions")) {
+                        String name = text(each.getAsJsonObject(), "display_name");
+                        if (name != null && !institutions.contains(name)) {
+                            institutions.add(name);
+                        }
                     }
                 }
             }
@@ -83,7 +92,7 @@ public final class OpenAlexMapper {
         }
 
         return new Work(id, doi, title, year, venue, citedBy, openAccess, retracted,
-                authors, concepts, references);
+                authors, institutions, concepts, text(json, "type"), references);
     }
 
     /**

@@ -75,6 +75,11 @@ final class FakeContainer {
             if (method.getName().equals("setLabel")) {
                 nodeLabels.put(id, (String) args[0]);
             } else if (method.getName().equals("setValue")) {
+                // The real container throws on a null value, so this one does too.
+                if (args[1] == null) {
+                    throw new NullPointerException(
+                            "Value for key '" + args[0] + "' can't be null");
+                }
                 nodeValues.get(id).put((String) args[0], args[1]);
             } else if (method.getName().equals("getId")) {
                 return id;

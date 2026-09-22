@@ -67,7 +67,9 @@
                 <artifactId>nbm-maven-plugin</artifactId>
                 <configuration>
                     <licenseName>MIT</licenseName>
+                    <licenseFile>LICENSE.txt</licenseFile>
                     <author>Cory Dugan</author>
+                    <homePageUrl>https://drcorydugan.com</homePageUrl>
                     <publicPackages>
                         <!-- Insert public packages -->
                     </publicPackages>

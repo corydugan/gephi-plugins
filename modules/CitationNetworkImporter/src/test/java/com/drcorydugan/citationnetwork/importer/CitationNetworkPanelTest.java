@@ -18,6 +18,16 @@ import org.junit.Test;
 public class CitationNetworkPanelTest {
 
     @Test
+    public void theWizardCannotFinishWithNeitherAQueryNorAnIdentifier() {
+        assertEquals(false, CitationNetworkPanel.isComplete("", ""));
+        assertEquals("whitespace is not an answer", false, CitationNetworkPanel.isComplete("  ", " "));
+        assertEquals(false, CitationNetworkPanel.isComplete(null, null));
+        assertEquals(true, CitationNetworkPanel.isComplete("iron deficiency", ""));
+        assertEquals(true, CitationNetworkPanel.isComplete("", "W4300771061"));
+        assertEquals(true, CitationNetworkPanel.isComplete("iron", "W4300771061"));
+    }
+
+    @Test
     public void everyDropdownIndexMapsToTheDirectionBesideIt() {
         assertEquals(WalkSettings.Direction.CITING, CitationNetworkPanel.directionOf(0));
         assertEquals(WalkSettings.Direction.REFERENCES, CitationNetworkPanel.directionOf(1));

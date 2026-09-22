@@ -11,6 +11,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.BorderFactory;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,6 +47,7 @@ public class CitationNetworkPanel extends JPanel {
     private final JSpinner neighbours = new JSpinner(new SpinnerNumberModel(25, 1, 200, 5));
     private final JTextField mailtoField = new JTextField(28);
     private final JPasswordField apiKeyField = new JPasswordField(28);
+    private final java.util.List<ChangeListener> listeners = new java.util.ArrayList<>();
 
     public CitationNetworkPanel() {
         setLayout(new GridBagLayout());
@@ -59,6 +63,43 @@ public class CitationNetworkPanel extends JPanel {
         addRow(row++, "neighbours", neighbours, false);
         addRow(row++, "mailto", mailtoField, true);
         addRow(row, "apiKey", apiKeyField, true);
+
+        DocumentListener watcher = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent event) {
+                fireChanged();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent event) {
+                fireChanged();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent event) {
+                fireChanged();
+            }
+        };
+        queryField.getDocument().addDocumentListener(watcher);
+        seedField.getDocument().addDocumentListener(watcher);
+    }
+
+    /**
+     * The wizard step listens, so the finish button follows what has been typed.
+     */
+    public void addChangeListener(ChangeListener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeChangeListener(ChangeListener listener) {
+        listeners.remove(listener);
+    }
+
+    private void fireChanged() {
+        javax.swing.event.ChangeEvent event = new javax.swing.event.ChangeEvent(this);
+        for (ChangeListener listener : new java.util.ArrayList<>(listeners)) {
+            listener.stateChanged(event);
+        }
     }
 
     private static String text(String key) {
@@ -100,7 +141,12 @@ public class CitationNetworkPanel extends JPanel {
      * Whether the panel holds enough to run: a query or a work identifier.
      */
     public boolean isComplete() {
-        return !queryField.getText().trim().isEmpty() || !seedField.getText().trim().isEmpty();
+        return isComplete(queryField.getText(), seedField.getText());
+    }
+
+    static boolean isComplete(String query, String seed) {
+        return (query != null && !query.trim().isEmpty())
+                || (seed != null && !seed.trim().isEmpty());
     }
 
     public void read(ImportSettings settings) {

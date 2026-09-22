@@ -54,16 +54,16 @@ public class CitationNetworkWizardPanel implements WizardDescriptor.Panel<Wizard
 
     @Override
     public boolean isValid() {
-        return true;
+        return getPanel().isComplete();
     }
 
     @Override
     public void addChangeListener(ChangeListener listener) {
-        // The single panel is always valid enough to finish on, so no events.
+        getPanel().addChangeListener(listener);
     }
 
     @Override
     public void removeChangeListener(ChangeListener listener) {
-        // See addChangeListener.
+        getPanel().removeChangeListener(listener);
     }
 }

@@ -54,7 +54,7 @@ public final class CitationWalker {
     private final CitationSource source;
     private final WalkSettings settings;
     private final Observer observer;
-    private final List<String> problems = new ArrayList<>();
+    private final List<WalkProblem> problems = new ArrayList<>();
 
     public CitationWalker(CitationSource source, WalkSettings settings, Observer observer) {
         this.source = source;
@@ -63,11 +63,11 @@ public final class CitationWalker {
     }
 
     /**
-     * Anything that went wrong without stopping the walk, for the import
-     * report. A neighbourhood that could not be fetched is recorded here
-     * rather than silently dropped.
+     * Anything that went wrong without stopping the walk. A neighbourhood that
+     * could not be fetched is recorded here rather than silently dropped, in
+     * parts rather than as a sentence.
      */
-    public List<String> getProblems() {
+    public List<WalkProblem> getProblems() {
         return problems;
     }
 
@@ -149,8 +149,9 @@ public final class CitationWalker {
                     ? source.fetchCiting(id, settings.getNeighboursPerWork())
                     : source.fetchReferences(id, settings.getNeighboursPerWork());
         } catch (SourceException e) {
-            problems.add((citing ? "citing works" : "references") + " for " + id
-                    + " could not be fetched: " + e.getMessage());
+            problems.add(new WalkProblem(
+                    citing ? WalkProblem.Kind.CITING : WalkProblem.Kind.REFERENCES,
+                    id, e.getMessage()));
             return List.of();
         }
     }

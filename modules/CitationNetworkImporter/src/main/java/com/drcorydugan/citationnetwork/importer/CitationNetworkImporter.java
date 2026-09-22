@@ -8,6 +8,7 @@ package com.drcorydugan.citationnetwork.importer;
 
 import com.drcorydugan.citationnetwork.graph.CitationGraph;
 import com.drcorydugan.citationnetwork.graph.CitationWalker;
+import com.drcorydugan.citationnetwork.graph.WalkProblem;
 import com.drcorydugan.citationnetwork.source.CachingFetcher;
 import com.drcorydugan.citationnetwork.source.CitationSource;
 import com.drcorydugan.citationnetwork.source.HttpFetcher;
@@ -99,8 +100,11 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
             CitationGraph graph = walker.walk();
             write(graph, loader, source.getId());
 
-            for (String problem : walker.getProblems()) {
-                report.log(problem);
+            for (WalkProblem problem : walker.getProblems()) {
+                report.log(message(problem.getKind() == WalkProblem.Kind.CITING
+                                ? "CitationNetworkImporter.report.citingFailed"
+                                : "CitationNetworkImporter.report.referencesFailed",
+                        problem.getWorkId(), problem.getDetail()));
             }
             if (source instanceof SemanticScholarSource
                     && ((SemanticScholarSource) source).getLastRequestWasElided()) {

@@ -146,7 +146,11 @@ public class CitationWalkerTest {
 
         assertEquals("the seed is still there", 1, graph.nodeCount());
         assertEquals(1, walker.getProblems().size());
-        assertTrue(walker.getProblems().get(0).contains("the source refused HUB"));
+        WalkProblem problem = walker.getProblems().get(0);
+        assertEquals(WalkProblem.Kind.CITING, problem.getKind());
+        assertEquals("HUB", problem.getWorkId());
+        assertTrue("the source's own words are kept for the log",
+                problem.getDetail().contains("the source refused HUB"));
     }
 
     @Test

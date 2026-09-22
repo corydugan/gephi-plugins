@@ -8,14 +8,13 @@ package com.drcorydugan.citationnetwork.importer;
 
 import com.drcorydugan.citationnetwork.graph.WalkSettings;
 import java.util.prefs.Preferences;
+import org.openide.util.NbPreferences;
 
 /**
  * Everything the wizard collects: what to walk, and how to reach the source.
  *
- * <p>The email address and the optional key are remembered between sessions in
- * the user's own preferences, because retyping them on every import is the
- * kind of friction that stops people using the polite pool at all. Neither is
- * ever written into the plugin's source.</p>
+ * <p>The email address and the optional key are the only values remembered
+ * between sessions. Neither is held anywhere in the plugin's source.</p>
  */
 public final class ImportSettings {
 
@@ -63,6 +62,6 @@ public final class ImportSettings {
     }
 
     private static Preferences preferences() {
-        return Preferences.userNodeForPackage(ImportSettings.class);
+        return NbPreferences.forModule(ImportSettings.class);
     }
 }

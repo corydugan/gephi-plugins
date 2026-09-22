@@ -23,15 +23,10 @@ import java.util.Map;
 /**
  * The OpenAlex implementation of {@link CitationSource}.
  *
- * <p>Two things about the live interface, both measured on 2026-09-21 rather
- * than taken from documentation. Free text search is rate limited for
- * anonymous callers and answers status 429 with a body naming the seconds to
- * wait, while filter queries and single work lookups were unaffected. And an
- * optional key removes that limit, which is why the wizard offers one.</p>
- *
- * <p>An email address in the polite pool parameter is OpenAlex's own
- * convention and earns faster service. It is supplied by the user and never
- * carried in this code.</p>
+ * <p>Free text search is rate limited for anonymous callers, so the optional
+ * key is passed through when the user supplies one. The email address goes in
+ * the polite pool parameter, which is OpenAlex's own convention for faster
+ * service; both values come from the user and neither is held in this code.</p>
  */
 public final class OpenAlexSource implements CitationSource {
 

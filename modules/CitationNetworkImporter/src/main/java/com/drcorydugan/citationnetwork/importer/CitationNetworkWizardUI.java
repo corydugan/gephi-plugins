@@ -10,6 +10,7 @@ import org.gephi.io.importer.spi.Importer;
 import org.gephi.io.importer.spi.ImporterWizardUI;
 import org.gephi.io.importer.spi.WizardImporter;
 import org.openide.WizardDescriptor;
+import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
@@ -23,18 +24,20 @@ public class CitationNetworkWizardUI implements ImporterWizardUI {
 
     @Override
     public String getDisplayName() {
-        return "Citation network";
+        return NbBundle.getMessage(CitationNetworkWizardUI.class,
+                "CitationNetworkWizardUI.displayName");
     }
 
     @Override
     public String getCategory() {
-        return "Bibliographic sources";
+        return NbBundle.getMessage(CitationNetworkWizardUI.class,
+                "CitationNetworkWizardUI.category");
     }
 
     @Override
     public String getDescription() {
-        return "Import a citation network from OpenAlex, following citations "
-                + "for as many generations as you ask for.";
+        return NbBundle.getMessage(CitationNetworkWizardUI.class,
+                "CitationNetworkWizardUI.description");
     }
 
     // The extension point itself declares a raw Panel array, so these three

@@ -18,6 +18,8 @@ import com.drcorydugan.citationnetwork.source.openalex.OpenAlexSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.gephi.io.importer.api.ContainerLoader;
 import org.gephi.io.importer.api.EdgeDirectionDefault;
 import org.gephi.io.importer.api.EdgeDraft;
@@ -27,12 +29,16 @@ import org.gephi.io.importer.spi.WizardImporter;
 import org.gephi.utils.longtask.spi.LongTask;
 import org.gephi.utils.progress.Progress;
 import org.gephi.utils.progress.ProgressTicket;
+import org.openide.util.NbBundle;
 
 /**
  * Builds a citation network in the Gephi workspace from a bibliographic
  * source, with no intermediate file.
  */
 public class CitationNetworkImporter implements WizardImporter, LongTask {
+
+    private static final Logger LOGGER =
+            Logger.getLogger(CitationNetworkImporter.class.getName());
 
     /** Node columns written for every work. */
     static final String COLUMN_DOI = "doi";
@@ -61,7 +67,7 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
         this.container = loader;
         this.report = new Report();
         Progress.start(progressTicket);
-        Progress.setDisplayName(progressTicket, "Importing a citation network");
+        Progress.setDisplayName(progressTicket, message("CitationNetworkImporter.progress.name"));
 
         loader.setEdgeDefault(EdgeDirectionDefault.DIRECTED);
         loader.setAllowSelfLoop(false);
@@ -72,9 +78,10 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
             CitationSource source = buildSource();
             CitationWalker walker = new CitationWalker(source, settings.getWalk(), new CitationWalker.Observer() {
                 @Override
-                public void progress(String message, int nodes, int edges) {
+                public void progress(String step, int nodes, int edges) {
                     Progress.progress(progressTicket,
-                            message + ": " + nodes + " works, " + edges + " citations");
+                            message("CitationNetworkImporter.progress.step",
+                                    step, nodes, edges));
                 }
 
                 @Override
@@ -89,18 +96,23 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
             for (String problem : walker.getProblems()) {
                 report.log(problem);
             }
-            report.log("Imported " + graph.nodeCount() + " works and "
-                    + graph.edgeCount() + " citations from " + source.getDisplayName() + ".");
+            report.log(message("CitationNetworkImporter.report.imported",
+                    graph.nodeCount(), graph.edgeCount(), source.getDisplayName()));
             if (cancelled) {
-                report.log("The import was cancelled, so the graph is what had been fetched by then.");
+                report.log(message("CitationNetworkImporter.report.cancelled"));
             }
             return true;
         } catch (SourceException | IOException e) {
-            report.log("The import stopped: " + e.getMessage());
+            LOGGER.log(Level.WARNING, "the citation network import stopped", e);
+            report.log(message("CitationNetworkImporter.report.stopped", e.getMessage()));
             return false;
         } finally {
             Progress.finish(progressTicket);
         }
+    }
+
+    private static String message(String key, Object... arguments) {
+        return NbBundle.getMessage(CitationNetworkImporter.class, key, arguments);
     }
 
     private CitationSource buildSource() throws IOException {

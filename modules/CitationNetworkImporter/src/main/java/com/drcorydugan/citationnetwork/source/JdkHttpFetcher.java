@@ -19,11 +19,9 @@ import java.util.regex.Pattern;
  * An {@link HttpFetcher} on the Java Development Kit's own client, with the
  * back off behaviour a public bibliographic interface asks for.
  *
- * <p>Two retry signals are honoured, both observed against OpenAlex on
- * 2026-09-21. A response may carry status 429 with a Retry-After header, and
- * it may instead carry a body of the form
- * {@code {"error":"Rate limit exceeded","retryAfter":39}}. Server errors in
- * the 500 range are retried as well, on the assumption they are transient.</p>
+ * <p>Two retry signals are honoured: status 429 with a Retry-After header, and
+ * a body of the form {@code {"error":"Rate limit exceeded","retryAfter":39}}.
+ * Status codes in the 500 range are retried as transient.</p>
  */
 public final class JdkHttpFetcher implements HttpFetcher {
 

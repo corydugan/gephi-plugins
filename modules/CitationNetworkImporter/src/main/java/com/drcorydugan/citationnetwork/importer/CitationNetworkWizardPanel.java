@@ -10,6 +10,7 @@ import java.awt.Component;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
+import org.openide.util.NbBundle;
 
 /**
  * The wizard step that shows {@link CitationNetworkPanel}.
@@ -22,7 +23,8 @@ public class CitationNetworkWizardPanel implements WizardDescriptor.Panel<Wizard
     public Component getComponent() {
         if (component == null) {
             component = new CitationNetworkPanel();
-            component.setName("Citation network");
+            component.setName(NbBundle.getMessage(CitationNetworkWizardPanel.class,
+                    "CitationNetworkWizardPanel.name"));
         }
         return component;
     }

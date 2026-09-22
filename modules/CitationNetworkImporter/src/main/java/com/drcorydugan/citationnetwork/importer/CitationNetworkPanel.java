@@ -18,12 +18,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import org.openide.util.NbBundle;
 
 /**
  * The one screen of the import wizard.
  *
- * <p>Built in code rather than in a form file so the whole panel can be read
- * in one place, which is what a plugin reviewer has to do.</p>
+ * <p>Every label and hint comes from the module's Bundle.properties.</p>
  */
 public class CitationNetworkPanel extends JPanel {
 
@@ -32,8 +32,10 @@ public class CitationNetworkPanel extends JPanel {
     private final JTextField queryField = new JTextField(28);
     private final JTextField seedField = new JTextField(28);
     private final JSpinner seedCount = new JSpinner(new SpinnerNumberModel(10, 1, 200, 1));
-    private final JComboBox<String> directionBox =
-            new JComboBox<>(new String[]{"Works citing these", "Works cited by these", "Both"});
+    private final JComboBox<String> directionBox = new JComboBox<>(new String[]{
+            text("CitationNetworkPanel.direction.citing"),
+            text("CitationNetworkPanel.direction.references"),
+            text("CitationNetworkPanel.direction.both")});
     private final JSpinner depth = new JSpinner(new SpinnerNumberModel(1, 0, 4, 1));
     private final JSpinner maximumWorks = new JSpinner(new SpinnerNumberModel(500, 10, 20000, 50));
     private final JSpinner neighbours = new JSpinner(new SpinnerNumberModel(25, 1, 200, 5));
@@ -44,22 +46,24 @@ public class CitationNetworkPanel extends JPanel {
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
         int row = 0;
-        addRow(row++, "Search query", queryField,
-                "Leave empty when a work identifier is given below.");
-        addRow(row++, "Or one work", seedField,
-                "An OpenAlex identifier such as W3198910543, or a digital object identifier.");
-        addRow(row++, "Seed works from the search", seedCount, null);
-        addRow(row++, "Follow", directionBox, null);
-        addRow(row++, "Generations", depth, null);
-        addRow(row++, "Maximum works", maximumWorks, null);
-        addRow(row++, "Neighbours per work", neighbours, null);
-        addRow(row++, "Your email address", mailtoField,
-                "OpenAlex serves a faster pool to requests that carry an address. Optional.");
-        addRow(row, "OpenAlex key", apiKeyField,
-                "Optional. A free key removes the rate limit on searches.");
+        addRow(row++, "query", queryField, true);
+        addRow(row++, "seed", seedField, true);
+        addRow(row++, "seedCount", seedCount, false);
+        addRow(row++, "direction", directionBox, false);
+        addRow(row++, "depth", depth, false);
+        addRow(row++, "maximum", maximumWorks, false);
+        addRow(row++, "neighbours", neighbours, false);
+        addRow(row++, "mailto", mailtoField, true);
+        addRow(row, "apiKey", apiKeyField, true);
     }
 
-    private void addRow(int row, String label, java.awt.Component field, String hint) {
+    private static String text(String key) {
+        return NbBundle.getMessage(CitationNetworkPanel.class, key);
+    }
+
+    private void addRow(int row, String key, java.awt.Component field, boolean withHint) {
+        String label = text("CitationNetworkPanel." + key + ".label");
+        String hint = withHint ? text("CitationNetworkPanel." + key + ".hint") : null;
         GridBagConstraints left = new GridBagConstraints();
         left.gridx = 0;
         left.gridy = row * 2;

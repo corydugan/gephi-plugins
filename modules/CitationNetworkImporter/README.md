@@ -46,17 +46,17 @@ generation         0 for a seed, then 1, 2 and so on outwards
 
 ## A worked example
 
-Start from one paper and collect the literature that cites it:
+Start from one paper and collect the literature that cites it. This one is Beutler and Waalen in Blood, asking what the lower limit of normal for blood haemoglobin actually is, a question whose answer every downstream anaemia prevalence estimate inherits:
 
 ```
-Or one work                 10.1016/s2352-3026(21)00193-9
+Or one work                 10.1182/blood-2005-07-3046
 Follow                      Works citing these
 Generations                 1
 Maximum works               300
 Neighbours per work         50
 ```
 
-That request builds a graph of the paper and the works citing it, with any citation between two of those works included as well, because the plugin closes citations inside the neighbourhood without asking the source again.
+That request builds a graph of the paper and the works citing it, with any citation between two of THOSE works included as well, because the plugin closes citations inside the neighbourhood without asking the source again. In the ten citing works recorded as test fixtures, that step adds seven edges the source was never asked for, so the neighbourhood is not a star.
 
 Raise Generations to 2 and the walk continues outwards from each of those works. A second generation grows quickly, which is what Maximum works is for.
 

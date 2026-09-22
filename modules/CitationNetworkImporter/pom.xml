@@ -40,6 +40,10 @@
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-awt</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util-ui</artifactId>
+        </dependency>
 
         <!-- Third party. The parent manages Gephi and NetBeans artifacts only,
              so these two carry an explicit version. -->
@@ -64,9 +68,6 @@
                 <configuration>
                     <licenseName>MIT</licenseName>
                     <author>Cory Dugan</author>
-                    <authorEmail></authorEmail>
-                    <authorUrl>https://drcorydugan.com</authorUrl>
-                    <sourceCodeUrl>https://github.com/corydugan/gephi-plugins.git</sourceCodeUrl>
                     <publicPackages>
                         <!-- Insert public packages -->
                     </publicPackages>

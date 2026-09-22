@@ -21,12 +21,25 @@ public final class ImportSettings {
     private static final String PREFERENCE_MAILTO = "mailto";
     private static final String PREFERENCE_API_KEY = "apiKey";
 
+    /** Identifier of the source to walk, matching CitationSource.getId(). */
+    public static final String SOURCE_OPENALEX = "openalex";
+    public static final String SOURCE_SEMANTIC_SCHOLAR = "semanticscholar";
+
     private final WalkSettings walk = new WalkSettings();
+    private String sourceId = SOURCE_OPENALEX;
     private String mailto = "";
     private String apiKey = "";
 
     public WalkSettings getWalk() {
         return walk;
+    }
+
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId == null || sourceId.isBlank() ? SOURCE_OPENALEX : sourceId;
     }
 
     public String getMailto() {

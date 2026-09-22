@@ -15,6 +15,7 @@ import com.drcorydugan.citationnetwork.source.JdkHttpFetcher;
 import com.drcorydugan.citationnetwork.source.SourceException;
 import com.drcorydugan.citationnetwork.source.Work;
 import com.drcorydugan.citationnetwork.source.openalex.OpenAlexSource;
+import com.drcorydugan.citationnetwork.source.semanticscholar.SemanticScholarSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -98,6 +99,10 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
             for (String problem : walker.getProblems()) {
                 report.log(problem);
             }
+            if (source instanceof SemanticScholarSource
+                    && ((SemanticScholarSource) source).getLastRequestWasElided()) {
+                report.log(message("CitationNetworkImporter.report.elided"));
+            }
             report.log(message("CitationNetworkImporter.report.imported",
                     graph.nodeCount(), graph.edgeCount(), source.getDisplayName()));
             if (cancelled) {
@@ -123,6 +128,9 @@ public class CitationNetworkImporter implements WizardImporter, LongTask {
                 "citation-network-importer-cache");
         Files.createDirectories(cache);
         fetcher = new CachingFetcher(fetcher, cache);
+        if (ImportSettings.SOURCE_SEMANTIC_SCHOLAR.equals(settings.getSourceId())) {
+            return new SemanticScholarSource(fetcher, settings.getApiKey());
+        }
         return new OpenAlexSource(fetcher, settings.getMailto(), settings.getApiKey());
     }
 

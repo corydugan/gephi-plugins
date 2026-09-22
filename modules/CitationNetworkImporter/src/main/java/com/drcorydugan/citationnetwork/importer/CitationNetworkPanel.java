@@ -29,6 +29,9 @@ public class CitationNetworkPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
+    private final JComboBox<String> sourceBox = new JComboBox<>(new String[]{
+            text("CitationNetworkPanel.source.openalex"),
+            text("CitationNetworkPanel.source.semanticscholar")});
     private final JTextField queryField = new JTextField(28);
     private final JTextField seedField = new JTextField(28);
     private final JSpinner seedCount = new JSpinner(new SpinnerNumberModel(10, 1, 200, 1));
@@ -46,6 +49,7 @@ public class CitationNetworkPanel extends JPanel {
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
         int row = 0;
+        addRow(row++, "source", sourceBox, true);
         addRow(row++, "query", queryField, true);
         addRow(row++, "seed", seedField, true);
         addRow(row++, "seedCount", seedCount, false);
@@ -100,11 +104,14 @@ public class CitationNetworkPanel extends JPanel {
     }
 
     public void read(ImportSettings settings) {
+        sourceBox.setSelectedIndex(
+                ImportSettings.SOURCE_SEMANTIC_SCHOLAR.equals(settings.getSourceId()) ? 1 : 0);
         mailtoField.setText(settings.getMailto());
         apiKeyField.setText(settings.getApiKey());
     }
 
     public void write(ImportSettings settings) {
+        settings.setSourceId(sourceIdOf(sourceBox.getSelectedIndex()));
         settings.setMailto(mailtoField.getText());
         settings.setApiKey(new String(apiKeyField.getPassword()));
         WalkSettings walk = settings.getWalk();
@@ -115,6 +122,10 @@ public class CitationNetworkPanel extends JPanel {
         walk.setMaximumWorks((Integer) maximumWorks.getValue());
         walk.setNeighboursPerWork((Integer) neighbours.getValue());
         walk.setDirection(directionOf(directionBox.getSelectedIndex()));
+    }
+
+    static String sourceIdOf(int index) {
+        return index == 1 ? ImportSettings.SOURCE_SEMANTIC_SCHOLAR : ImportSettings.SOURCE_OPENALEX;
     }
 
     static WalkSettings.Direction directionOf(int index) {

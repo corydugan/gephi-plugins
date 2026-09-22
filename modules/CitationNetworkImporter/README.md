@@ -102,9 +102,21 @@ mvn org.gephi:gephi-maven-plugin:run
 
 The tests run against responses recorded from OpenAlex and trimmed to the fields this plugin reads. No test touches the network.
 
-## Adding another source
+## Two sources, and what differs between them
 
-The walk talks to a `CitationSource`, and OpenAlex is one implementation of it. Crossref or PubMed can be added behind the same wizard by implementing that interface, which is why the plugin is not called after any one database.
+The walk talks to a `CitationSource`, and there are two implementations of it. The wizard's first field chooses which.
+
+| | OpenAlex | Semantic Scholar |
+|:--|:--|:--|
+| Works citing these | yes | yes |
+| Works cited by these | yes | yes, unless the publisher withheld the reference list |
+| Paging | cursor | offset |
+| Key | optional, and removes the search rate limit | optional |
+| Extra node columns | institutions, concepts | none of those |
+
+The withheld case is real rather than theoretical. Asking Semantic Scholar for the references of the paper in the worked example returns a null list with a note saying the publisher elided the field. The plugin reports that in the import report, so a missing reference list does not read as a paper that cites nothing.
+
+Crossref or PubMed can be added the same way, which is why the plugin is not named after any one database.
 
 ## Licence
 
